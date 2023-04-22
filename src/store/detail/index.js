@@ -15,15 +15,17 @@ const actions = {
             commit('GETGOODINFO', result.data);
         }
     },
-    // 将产品添加到购物车当中
+    // 加入购物车的action || 修改某个产品的个数
     async addOrUpdateShopCart({ commit }, { skuId, skuNum }) {
+        // 发请求:前端带一些参数给服务器[需要储存这些参数],存储成功了,没有返回数据
+        // 不需要再三连环(仓库的存储数据了)
+        // 注意:async函数执行返回的结果一定是promise[要么成功,要么失败]
         let result = await reqAddOrUpdateShopCart(skuId, skuNum);
-        // 当前的这个函数如果执行返回的是Promise
         if (result.code == 200) {
-            return 'ok'
+            // 返回的是成功的标记
+            return 'ok';
         } else {
-            // 代表加入购物车失败
-            return Promise(new Error('faile'));
+            return Promise.reject(new Error('faile'))
         }
     }
 }
@@ -41,7 +43,6 @@ const getters = {
     spuSaleAttrList(state) {
         return state.goodInfo.spuSaleAttrList || [];
     }
-
 }
 
 export default {

@@ -407,24 +407,16 @@ export default {
         this.skuNum = parseInt(this.skuNum);
       }
     },
-    // 加入购物车的回调函数
-    // async addShopCart() {
-    //   // console.log(this.$route.params.skuid, this.skuNum);
-    //   // 1:发请求----将产品数据加到数据库中（通知服务器）
-    //   // 当前这里是派发一个action，也想服务器发请求
-    //   // 判断加入购物车是成功了还是失败了，进行相应的操作
-    //   // 上面的这行代码说白了：调用仓库中的addOrUpdateShopCart
-    //   try {
-    //     await this.$store.dispatch("addOrUpdateShopCart", {
-    //       skuId: this.$route.params.skuid,
-    //       skuNum: this.skuNum,
-    //     });
-    //     // 路由跳转
-    //   } catch (error) {
-    //     console.log(error.message);
-    //   }
-    // },
-    addShopCart() {},
+    // 加入购物车
+    addShopCart() {
+      //1: 在点击加入购物车的时候，做的第一件事，将参数带给服务器，通知服务器加入购物车的产品是谁
+      // this.$store.dispatch('addOrUpdateShopCart'),说白了它是在调用Vuex仓库中的addOrUpdateShopCart函数
+      this.$store.dispatch("addOrUpdateShopCart", {
+        skuId: this.$route.params.skuid,
+        skuNum: this.skuNum,
+      });
+      // 2:你需要知道这次请求是成功还是失败,如果成功,进行路由的跳转,如果失败进行提示
+    },
   },
 };
 </script>
